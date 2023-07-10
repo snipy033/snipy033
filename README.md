@@ -6,4 +6,4 @@ mas especificamente en el area de pentesting,
 compartire por aqui apuntes que he ido tomando hasta ahora, los ire actualizando cada semana
 
 Si quereis poneros en contacto conmigo os dejo el enlace a mi linkedIn
-www.linkedin.com/in/sergio-maillo-469537271
+www.linkedin.com/in/sergio-maillo
